@@ -1,0 +1,70 @@
+<div class="dashboard-container">
+  <!-- Sidebar Backdrop -->
+  <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
+  
+  <!-- Sidebar -->
+  <div class="sidebar" [ngClass]="{'active': isSidebarOpen}">
+    <div class="user-profile">
+      <div class="avatar-container">
+        <img 
+          [src]="user?.avatar || 'assets/images/default-avatar.png'" 
+          alt="Photo de profil" 
+          class="user-avatar" 
+          [ngClass]="{'avatar-loaded': true}"
+          (error)="onImageError($event)"
+        >
+      </div>
+      <div class="user-info">
+        <h3 class="user-name">{{ user?.name || 'Utilisateur' }}</h3>
+        <p class="user-email">{{ user?.email || 'utilisateur@gmail.com' }}</p>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <a [routerLink]="['/admin/signature']" routerLinkActive="active" class="menu-item">
+        <i class="menu-icon fas fa-signature"></i>
+        Signature numérique
+      </a>
+      <a [routerLink]="['/admin/import']" routerLinkActive="active" class="menu-item">
+        <i class="menu-icon fas fa-file-import"></i>
+        Importation des décrets
+      </a>
+      <a [routerLink]="['/admin/list']" routerLinkActive="active" class="menu-item">
+        <i class="menu-icon fas fa-list"></i>
+        Liste des décrets
+      </a>
+      <a [routerLink]="['/login']" class="menu-item">
+        <i class="menu-icon fas fa-sign-out-alt"></i>
+        Déconnexion
+      </a>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <nav class="navbar">
+      <div class="navbar-container container-max-width">
+        <div class="navbar-brand">
+          <!-- Hamburger Menu -->
+          <div class="hamburger-menu" [ngClass]="{'active': isSidebarOpen}" (click)="toggleSidebar()">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+          </div>
+          
+          <img src="assets/images/decret.png" alt="Logo" class="brand-logo">
+          <span class="brand-name">AutoDécret</span>
+        </div>
+        <div class="user-welcome">
+          <span>Bienvenue, {{ user?.name || 'Utilisateur' }} 👋</span>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="content-area">
+      <div class="content-container container-max-width">
+        <!-- Le contenu des pages sera injecté ici -->
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

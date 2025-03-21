@@ -1,0 +1,142 @@
+<div class="decret-list-container">
+  <div class="section-header">
+    <h2>Liste des Décrets</h2>
+    <p>Gérez et visualisez tous les décrets et documents officiels</p>
+  </div>
+
+  <!-- Barre de recherche et filtres -->
+  <div class="card search-card mb-4">
+    <div class="card-body">
+      <div class="search-bar-container">
+        <div class="search-input-container">
+          <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Rechercher par titre ou référence..." 
+            [(ngModel)]="searchTerm"
+            (input)="applyFilters()"
+          >
+          <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <div class="search-actions">
+          <button class="btn btn-outline-primary filter-toggle-btn" (click)="toggleFilters()">
+            <i class="fas fa-filter"></i> Filtres
+            <i class="fas" [ngClass]="showFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </button>
+          <button class="btn btn-success">
+            <i class="fas fa-plus"></i> Nouveau Décret
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtres dépliables -->
+      <div class="filter-container" [ngClass]="{'show': showFilters}">
+        <div class="filter-group">
+          <label>Type de document</label>
+          <select class="form-select" [(ngModel)]="selectedType" (change)="applyFilters()">
+            <option value="all">Tous les types</option>
+            <option value="DECRET">Décret</option>
+            <option value="ARRETE">Arrêté</option>
+            <option value="CIRCULAIRE">Circulaire</option>
+            <option value="AUTRE">Autre</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Statut</label>
+          <select class="form-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+            <option value="all">Tous les statuts</option>
+            <option value="published">Publiés</option>
+            <option value="draft">Brouillons</option>
+            <option value="archived">Archivés</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Année</label>
+          <select class="form-select" [(ngModel)]="selectedYear" (change)="applyFilters()">
+            <option value="all">Toutes les années</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+        <button class="btn btn-outline-secondary" (click)="resetFilters()">
+          <i class="fas fa-times"></i> Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tableau des décrets -->
+  <div class="card">
+    <div class="card-body p-0">
+      <!-- Indicateur de chargement -->
+      <div class="loading-indicator" *ngIf="isLoading">
+        <div class="spinner-border text-success" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p>Chargement des décrets...</p>
+      </div>
+
+      <!-- Tableau de décrets -->
+      <div class="table-responsive" *ngIf="!isLoading">
+        <table class="table table-hover decret-table">
+          <thead>
+            <tr>
+              <th>Titre & Référence</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Statut</th>
+              <th>Taille</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let decret of filteredDecrets">
+              <td>
+                <div class="decret-info">
+                  <div class="decret-icon">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="decret-details">
+                    <h6 class="decret-title">{{ decret.title }}</h6>
+                    <span class="decret-reference">{{ decret.reference }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>{{ decret.type }}</td>
+              <td>{{ formatDate(decret.date) }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(decret.status)">
+                  {{ getStatusLabel(decret.status) }}
+                </span>
+              </td>
+              <td>{{ formatFileSize(decret.fileSize) }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-sm btn-outline-primary" title="Voir le document">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-success" title="Télécharger">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Message si aucun résultat -->
+        <div class="no-results" *ngIf="filteredDecrets.length === 0">
+          <i class="fas fa-search fa-3x text-muted"></i>
+          <p>Aucun décret ne correspond à vos critères de recherche.</p>
+          <button class="btn btn-primary" (click)="resetFilters()">Réinitialiser les filtres</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="signature-container">
+  <div class="section-header">
+    <h2>Signature Numérique</h2>
+    <p>Créez et gérez vos signatures numériques pour les documents officiels</p>
+  </div>
+
+  <div class="row">
+    <!-- Création de signature -->
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-header">
+          <h3>Créer une nouvelle signature</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="signatureForm" (ngSubmit)="saveSignature()">
+            <div class="form-group mb-4">
+              <label for="signatureName">Nom de la signature</label>
+              <input 
+                type="text" 
+                id="signatureName" 
+                formControlName="signatureName" 
+                class="form-control" 
+                placeholder="Ex: Signature officielle"
+              >
+              <div class="text-danger mt-1" *ngIf="signatureForm.get('signatureName')?.invalid && signatureForm.get('signatureName')?.touched">
+                <small *ngIf="signatureForm.get('signatureName')?.errors?.['required']">Le nom de la signature est requis.</small>
+                <small *ngIf="signatureForm.get('signatureName')?.errors?.['minlength']">Le nom doit contenir au moins 3 caractères.</small>
+              </div>
+            </div>
+
+            <div class="signature-canvas-container">
+              <label>Dessinez votre signature ci-dessous</label>
+              <div class="canvas-wrapper">
+                <canvas #signatureCanvas class="signature-canvas"></canvas>
+              </div>
+              <div class="canvas-controls mt-3">
+                <button type="button" class="btn btn-outline-danger me-2" (click)="clearCanvas()">
+                  <i class="fas fa-eraser me-1"></i> Effacer
+                </button>
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-save me-1"></i> Enregistrer
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste des signatures -->
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <h3>Vos signatures</h3>
+        </div>
+        <div class="card-body">
+          <!-- Liste des signatures existantes (simulation) -->
+          <div class="signature-list">
+            <div class="signature-item">
+              <div class="signature-preview">
+                <img src="assets/images/sample-signature.png" alt="Signature">
+              </div>
+              <div class="signature-info">
+                <h4>Signature principale</h4>
+                <p>Créée le 15/03/2025</p>
+              </div>
+              <div class="signature-actions">
+                <button class="btn btn-sm btn-outline-primary me-1">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="signature-item">
+              <div class="signature-preview">
+                <img src="assets/images/sample-signature-2.png" alt="Signature">
+              </div>
+              <div class="signature-info">
+                <h4>Signature secondaire</h4>
+                <p>Créée le 10/03/2025</p>
+              </div>
+              <div class="signature-actions">
+                <button class="btn btn-sm btn-outline-primary me-1">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Message si aucune signature -->
+            <div class="no-signatures" *ngIf="false">
+              <p class="text-center my-4">
+                <i class="fas fa-signature fa-3x text-muted mb-3"></i><br>
+                Vous n'avez pas encore de signatures enregistrées.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

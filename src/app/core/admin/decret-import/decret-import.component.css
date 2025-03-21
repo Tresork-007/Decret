@@ -1,0 +1,336 @@
+.import-container {
+  padding: 20px 0;
+}
+
+.section-header {
+  margin-bottom: 30px;
+}
+
+.section-header h2 {
+  color: #1e8449;
+  font-weight: 600;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #1e8449;
+  transition: width 0.3s ease;
+}
+
+.section-header h2:hover::after {
+  width: 100%;
+}
+
+.section-header p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: none;
+  overflow: hidden;
+  margin-bottom: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 15px 20px;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Formulaire */
+.form-group label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control {
+  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #1e8449;
+  box-shadow: 0 0 0 0.25rem rgba(30, 132, 73, 0.25);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Zone de dépôt de fichier */
+.file-drop-area {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.file-drop-area.drag-over {
+  border-color: #1e8449;
+  background-color: rgba(30, 132, 73, 0.05);
+}
+
+.file-drop-area.has-file {
+  background-color: #f0f8f1;
+  border-color: #1e8449;
+}
+
+.drop-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.drop-message i {
+  font-size: 40px;
+  color: #aaa;
+}
+
+.drop-message p {
+  margin: 0;
+  color: #666;
+}
+
+.file-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-info i {
+  color: #e74c3c;
+  font-size: 20px;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #333;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.remove-file:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Statut d'importation */
+.import-status {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.status-header i {
+  font-size: 24px;
+}
+
+.status-header span {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  transition: width 0.3s ease;
+  background-color: #1e8449;
+}
+
+/* Tableau d'historique */
+.table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  color: #444;
+  padding: 12px 15px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.table td {
+  padding: 12px 15px;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.document-info i {
+  color: #e74c3c;
+  font-size: 18px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-success {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.status-error {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.status-pending {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-outline-primary {
+  color: #1e8449;
+  border-color: #1e8449;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1e8449;
+  border-color: #1e8449;
+  color: white;
+}
+
+.btn-success {
+  background-color: #1e8449;
+  border-color: #1e8449;
+}
+
+.btn-success:hover {
+  background-color: #186a3b;
+  border-color: #186a3b;
+}
+
+.form-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.no-history {
+  color: #888;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.no-history i {
+  margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  .col-lg-5, .col-lg-7 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .file-drop-area {
+    padding: 15px;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+}

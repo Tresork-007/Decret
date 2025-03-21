@@ -1,0 +1,54 @@
+<div class="decret-view-container">
+  <app-sidebar></app-sidebar>
+  
+  <div class="main-content">
+    <div class="header">
+      <div class="back-button">
+        <a [routerLink]="['/dashboard']" class="btn btn-sm btn-light">
+          <i class="fas fa-arrow-left"></i> Retour
+        </a>
+      </div>
+      <h1>Mon Décret</h1>
+    </div>
+    
+    <div class="content-section" *ngIf="decret; else loading">
+      <div class="decret-details">
+        <div class="decret-info">
+          <h2 class="decret-title">{{ decret.title }}</h2>
+          <div class="decret-meta">
+            <span class="decret-date">Créé le: {{ decret.dateCreation | date:'dd/MM/yyyy' }}</span>
+            <span class="decret-id">ID: {{ decret.id }}</span>
+          </div>
+          <div class="decret-description">
+            <h4>Description</h4>
+            <p>{{ decret.description }}</p>
+          </div>
+        </div>
+        
+        <div class="decret-actions">
+          <button class="btn btn-primary" (click)="downloadDecret()">
+            <i class="fas fa-download"></i> Télécharger
+          </button>
+        </div>
+      </div>
+      
+      <div class="decret-preview">
+        <h4>Aperçu du document</h4>
+        <div class="preview-container" #pdfContainer>
+          <!-- Le container sera rempli dynamiquement via le code TypeScript -->
+        </div>
+      </div>
+    </div>
+    
+    <ng-template #loading>
+      <div class="loading-container">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p>Chargement du décret...</p>
+      </div>
+    </ng-template>
+    
+    <app-footer></app-footer>
+  </div>
+</div>

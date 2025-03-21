@@ -1,0 +1,183 @@
+<div class="import-container">
+  <div class="section-header">
+    <h2>Importation de Décrets</h2>
+    <p>Importez et gérez les décrets et autres documents officiels</p>
+  </div>
+
+  <div class="row">
+    <!-- Formulaire d'importation -->
+    <div class="col-lg-5">
+      <div class="card">
+        <div class="card-header">
+          <h3>Importer un document</h3>
+        </div>
+        <div class="card-body">
+          <!-- Statut d'importation (affiché uniquement pendant le processus) -->
+          <div *ngIf="importStatus" class="import-status">
+            <div class="status-header">
+              <i [ngClass]="{'fas fa-spinner fa-spin': importStatus.status === 'processing', 
+                            'fas fa-check-circle text-success': importStatus.status === 'success',
+                            'fas fa-times-circle text-danger': importStatus.status === 'error'}"></i>
+              <span>{{ importStatus.message }}</span>
+            </div>
+            
+            <div class="file-info" *ngIf="importStatus.fileName">
+              <span>{{ importStatus.fileName }}</span>
+              <small *ngIf="importStatus.fileSize">{{ formatFileSize(importStatus.fileSize) }}</small>
+            </div>
+            
+            <div class="progress mt-3" *ngIf="importStatus.status === 'processing'">
+              <div class="progress-bar bg-success" 
+                   [style.width.%]="importStatus.progress">
+                {{ importStatus.progress }}%
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire d'importation (caché pendant le traitement) -->
+          <form [formGroup]="importForm" (ngSubmit)="onSubmit()" *ngIf="!importStatus">
+            <div class="form-group mb-3">
+              <label for="documentType">Type de document</label>
+              <select id="documentType" formControlName="documentType" class="form-control">
+                <option value="DECRET">Décret</option>
+                <option value="ARRETE">Arrêté</option>
+                <option value="CIRCULAIRE">Circulaire</option>
+                <option value="AUTRE">Autre</option>
+              </select>
+              <div class="text-danger mt-1" *ngIf="importForm.get('documentType')?.invalid && importForm.get('documentType')?.touched">
+                Veuillez sélectionner un type de document.
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="documentDate">Date du document</label>
+              <input type="date" id="documentDate" formControlName="documentDate" class="form-control">
+              <div class="text-danger mt-1" *ngIf="importForm.get('documentDate')?.invalid && importForm.get('documentDate')?.touched">
+                Veuillez sélectionner une date valide.
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="documentDescription">Description</label>
+              <textarea id="documentDescription" formControlName="documentDescription" class="form-control" rows="3"
+                placeholder="Brève description du document"></textarea>
+              <div class="text-danger mt-1" *ngIf="importForm.get('documentDescription')?.invalid && importForm.get('documentDescription')?.touched">
+                <small *ngIf="importForm.get('documentDescription')?.errors?.['required']">La description est requise.</small>
+                <small *ngIf="importForm.get('documentDescription')?.errors?.['minlength']">La description doit contenir au moins 10 caractères.</small>
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <label>Fichier PDF</label>
+              
+              <div class="file-drop-area" 
+                   [ngClass]="{'drag-over': dragOver, 'has-file': fileToUpload}"
+                   (drop)="onFileDropped($event)"
+                   (dragover)="onDragOver($event)"
+                   (dragleave)="onDragLeave($event)">
+                
+                <div class="file-preview" *ngIf="fileToUpload">
+                  <div class="file-info">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="file-name">{{ fileToUpload.name }}</span>
+                    <span class="file-size">{{ (fileToUpload.size / (1024 * 1024)).toFixed(2) }} Mo</span>
+                  </div>
+                  <button type="button" class="remove-file" (click)="removeFile()">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                
+                <div class="drop-message" *ngIf="!fileToUpload">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Glissez-déposez votre fichier ici ou</p>
+                  <label class="btn btn-outline-secondary">
+                    Parcourir
+                    <input type="file" hidden accept=".pdf" (change)="onFileSelected($event)">
+                  </label>
+                  <p class="text-muted mt-2">Format accepté: PDF uniquement</p>
+                </div>
+              </div>
+              
+              <div class="text-danger mt-1" *ngIf="importForm.get('documentFile')?.invalid && importForm.get('documentFile')?.touched">
+                Veuillez sélectionner un fichier PDF.
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success" [disabled]="importForm.invalid || !fileToUpload">
+                <i class="fas fa-upload me-2"></i>Importer
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historique d'importation -->
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-header">
+          <h3>Historique d'importation</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Document</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Taille</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of importHistory">
+                  <td>
+                    <div class="document-info">
+                      <i class="fas fa-file-pdf"></i>
+                      <span>{{ item.fileName }}</span>
+                    </div>
+                  </td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ formatDate(item.date) }}</td>
+                  <td>{{ formatFileSize(item.fileSize) }}</td>
+                  <td>
+                    <span class="status-badge" [ngClass]="{
+                      'status-success': item.status === 'success',
+                      'status-error': item.status === 'error',
+                      'status-pending': item.status === 'pending'
+                    }">
+                      {{ item.status === 'success' ? 'Succès' : 
+                         item.status === 'error' ? 'Erreur' : 'En attente' }}
+                    </span>
+                    <small *ngIf="item.errorMessage" class="d-block text-danger">{{ item.errorMessage }}</small>
+                  </td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="btn btn-sm btn-outline-primary me-1" title="Voir le document">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Message si aucun historique -->
+          <div *ngIf="importHistory.length === 0" class="no-history">
+            <p class="text-center my-4">
+              <i class="fas fa-history fa-3x text-muted mb-3"></i><br>
+              Aucun document n'a encore été importé.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

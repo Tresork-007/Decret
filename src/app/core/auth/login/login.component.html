@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<div class="auth-container">
+  <div class="form-container">
+    <div class="form-card">
+      <div class="logo-container">
+        <img src="assets/images/drapeau.png" alt="Drapeau du Gabon" class="flag-logo">
+        <h2 class="title">CONNEXION</h2>
+      </div>
+      <p class="instructions">Entrez vos identifiants pour accéder à votre compte</p>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Adresse mail"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          />
+          <div *ngIf="submitted && f['email'].errors" class="error-message">
+            <span *ngIf="f['email'].errors['required']">L'adresse email est requise</span>
+            <span *ngIf="f['email'].errors['email'] || f['email'].errors['pattern']">Format d'email invalide</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="Mot de passe"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
+          />
+          <div *ngIf="submitted && f['password'].errors" class="error-message">
+            <span *ngIf="f['password'].errors['required']">Le mot de passe est requis</span>
+            <span *ngIf="f['password'].errors['pattern']">Format invalide (min. 6 caractères avec majuscule, minuscule et chiffre)</span>
+            <span *ngIf="f['password'].errors['minlength']">Le mot de passe doit contenir au moins 6 caractères</span>
+          </div>
+        </div>
+
+        <button type="submit" class="login-button">
+          SE CONNECTER
+        </button>
+      </form>
+
+      <div class="signup-link">
+        Pas encore de compte ? <a href="#" routerLink="/signup">S'inscrire</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

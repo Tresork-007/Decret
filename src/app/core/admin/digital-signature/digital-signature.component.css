@@ -1,0 +1,251 @@
+.signature-container {
+  padding: 20px 0;
+}
+
+.section-header {
+  margin-bottom: 30px;
+}
+
+.section-header h2 {
+  color: #1e8449;
+  font-weight: 600;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #1e8449;
+  transition: width 0.3s ease;
+}
+
+.section-header h2:hover::after {
+  width: 100%;
+}
+
+.section-header p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: none;
+  overflow: hidden;
+  margin-bottom: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 15px 20px;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Formulaire */
+.form-group label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #1e8449;
+  box-shadow: 0 0 0 0.25rem rgba(30, 132, 73, 0.25);
+}
+
+/* Canvas pour la signature */
+.signature-canvas-container {
+  margin-top: 20px;
+}
+
+.canvas-wrapper {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  height: 200px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.canvas-wrapper:hover {
+  border-color: #1e8449;
+}
+
+.signature-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.canvas-controls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Liste des signatures */
+.signature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.signature-item {
+  display: flex;
+  border: 1px solid #eee;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signature-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.signature-preview {
+  width: 80px;
+  height: 60px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.signature-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.signature-info {
+  flex: 1;
+  padding: 0 15px;
+}
+
+.signature-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.signature-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.signature-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* Buttons */
+.btn-success {
+  background-color: #1e8449;
+  border-color: #1e8449;
+}
+
+.btn-success:hover {
+  background-color: #186a3b;
+  border-color: #186a3b;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-outline-primary {
+  color: #1e8449;
+  border-color: #1e8449;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1e8449;
+  border-color: #1e8449;
+  color: white;
+}
+
+/* Message si aucune signature */
+.no-signatures {
+  padding: 30px 0;
+  color: #888;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  .col-md-7, .col-md-5 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .canvas-wrapper {
+    height: 150px;
+  }
+  
+  .signature-item {
+    flex-direction: column;
+  }
+  
+  .signature-preview {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .signature-info {
+    padding: 10px 0;
+  }
+  
+  .signature-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+}
